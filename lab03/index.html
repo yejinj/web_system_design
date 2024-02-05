@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>태스크 관리 시스템</title>
+</head>
+<body>
+  <h1>태스크 관리 시스템</h1>
+
+  <button onclick="addAction('add')"> ADD </button>
+  <button onclick="addAction('list')"> LIST </button>
+  <button onclick="addAction('filter')"> FILTER </button>
+  <button onclick="addAction('delete')"> DEL </button>
+
+  <script>
+    class Task {
+      constructor(text, priority) {
+        this.text = text;
+        this.isComplete = false;
+        if (this.validatePriority(priority)) {
+            this.priority = priority; // 우선순위 유효하면 변경
+        
+        }
+        else {
+            this.priority = 'medium';
+        }
+      }
+
+      validatePriority(priority) {
+        const validPriorities = ['high', 'medium', 'low'];
+        return validPriorities.includes(priority);
+        // priority 존재하면 리턴
+      }
+
+      toggleCompletion() { // 완료상태 전환
+        this.isComplete = !this.isComplete;
+      }
+    }
+
+    class TaskManager {
+      constructor() {
+        this.tasks = []; // 빈배열 생성
+      }
+
+      addTask(text, priority) {
+        const newTask = new Task(text, priority); // 텍스트와 우선순위 포함 태스크 생성
+        this.tasks.push(newTask);
+        console.log(`Task added: ${text} (Priority: ${priority})`);
+      }
+
+      deleteTask(index) {
+        if (index >= 0 && index < this.tasks.length) {
+          const deletedTask = this.tasks.splice(index, 1);
+          console.log(`Task deleted: ${deletedTask[0].text}`);
+          // splice method 사용하여 배열에서 해당 인덱스 태스크 제거 (1개 제거)
+          // 삭제된 태스크 deletedTask에 저장하여 콘솔에 출력
+        }
+        else {
+          console.log('Invalid index');
+        }
+      }
+
+      listTasks() {
+        this.tasks.forEach((task, index) => {
+          let completeStatus = task.isComplete ? 'Yes' : 'No';
+          if (!task.isComplete) {
+            completeStatus = 'No';
+          } else {
+            completeStatus = 'Yes';
+          }
+      
+          console.log(`${index + 1}. ${task.text} (Priority: ${task.priority}, Complete: ${completeStatus})`);
+        });
+      }
+
+      filterTaskByPriority(priority) {
+        const filteredTasks = this.tasks.filter(task => task.priority === priority);
+        // task의 priority 속성과 주어진 priority가 일치하는가?
+        // 검사해서 filteredTasks에 담아 반환
+
+        filteredTasks.forEach((task, index) => {
+          console.log(`${index + 1}. ${task.text} (Priority: ${task.priority}, Complete: ${task.isComplete ? 'Yes' : 'No'})`);
+        })
+      }
+
+      toggleTaskCompletion(index) {
+        if (index >= 0 && index < this.tasks.length) {
+          const task = this.tasks[index];
+          task.toggleCompletion();
+          console.log(`Task completion toggled for: ${task.text}`);
+        } else {
+          console.log('Invalid index');
+        }
+      }
+
+      printTask(task) {
+        console.log(`Task: ${task.text} (Priority: ${task.priority}, Complete: ${task.isComplete ? 'Yes' : 'No'})`);
+      }
+    }
+
+    const taskManager = new TaskManager();
+
+    function addAction(action) {
+      switch (action) {
+        case 'add':
+          const taskInput = prompt('태스크를 입력하세요: ');
+          const priorityInput = prompt('우선순위를 입력하세요 (high/medium/low):');
+          taskManager.addTask(taskInput, priorityInput);
+          break;
+        case 'list':
+          taskManager.listTasks();
+          break;
+        case 'filter':
+          const priorityFilter = prompt('필터에 우선순위를 입력하세요:');
+          taskManager.filterTaskByPriority(priorityFilter);
+          break;
+        case 'delete':
+          const indexToDelete = prompt('삭제할 태스크의 인덱스를 입력하세요:');
+          taskManager.deleteTask(parseInt(indexToDelete) - 1);
+          // parseInt 사용하여 숫자일때만 집어넣기
+          break;
+        default:
+          console.log('Invalid action');
+      }
+    }
+  </script>
+</body>
+</html>
