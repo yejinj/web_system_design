@@ -1,11 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab04</title>
+    <style>
+      div {
+        width: 25%;
+        border: 5px solid gray;
+        padding: 10px;
+        margin: 10px;
+      }
+    </style>
+    <script src="exercise2.js"></script>
+  </head>
+
+  <body>
+    <div>
+      <button id="setTimerBtn">타이머 설정</button>
+      <button id="displayTimerBtn">타이머 조회</button>
+    </div>
+    <div id="timer0">
+      <span>Timer 0</span>
+      <span id="timer1Status"></span>
+    </div>
+    <div id="timer1">
+      <span>Timer 1</span>
+      <span id="timer2Status"></span>
+    </div>
+    <div id="timer2">
+      <span>Timer 2</span>
+      <span id="timer3Status"></span>
+    </div>
+    <div>
+      <button id="runTaskBtn">태스크 실행</button>
+    </div>
+  </body>
 </html>
+
+<!-- 
+    Callback hell:
+    여러개의 콜백함수를 중첩해서 사용할 경우
+    코드의 depth가 증가해서 가독성을 해치는 경우!
+
+    . .어떻게 방지?
+    모든 콜백을 one depth 처리하면 해결됨
+
+ -->
+
+<!-- 
+    Promise: 객체.
+    생성자는 parameter로 executor라고 불리는 함수를 전달받음
+    executor 함수는 첫번째 인수로 resolve라고 불리는 콜백 함수,
+    두번째 인수로 reject (optional) 라고 불리는 콜백 함수를 받는다.
+
+    Prmoise는 실행 결과를 반환
+    -> 성공, 실패에 따라 .then() or .catch() 호출
+
+    무조건 성공 or 실패 둘 중 하나만 일어남
+    성공시 resolve 호출 -> .then() 호출
+    실패시 reject -> .catch() 호출
+    .finally() : .then, .catch 중 무엇이 호출되든 상관없이 무조건 호출
+ -->
+
+ <!-- 
+    Promise의 3가지 상태
+    1. pending : resolve or reject 되기 전 상태, 아직 실행중일 경우
+    2. resolved
+    3. rejected
+  -->
+
+  <!-- 
+    Async 키워드 사용: 비동기적 수행 함수 정의 가능
+    -> await 키워드 사용: 암시적으로 promise 반환,
+        resolve 안에서 반환한 데이터에 바로 접근 가능
+    
+    async 키워드로 선언된 함수 안에서만 await 키워드 사용 가능
+    await 키워드 이용한 함수 호출은 Promise 반환하는 함수만 가능
+        promise가 완료될 때까지 async function 스탑!
+   -->
